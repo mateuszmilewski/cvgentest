@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Lokalny kreator CV z podglądem A4, kontrolą ATS oraz eksportem PDF i DOCX." />
+    <meta name="theme-color" content="#0b1220" />
+    <title>CV Studio — kreator CV</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1220'/%3E%3Cpath d='M19 15h20l8 8v26H19z' fill='none' stroke='%23fff' stroke-width='4'/%3E%3Cpath d='M39 15v9h8M25 33h16M25 41h12' stroke='%2326c6a5' stroke-width='4'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="app-bar">
+      <a class="brand" href="#studio" aria-label="CV Studio — przejdź do edytora">
+        <span class="brand-mark" aria-hidden="true">CV</span>
+        <span>
+          <strong>CV Studio</strong>
+          <small>Kreator oparty na faktach</small>
+        </span>
+      </a>
+
+      <div class="save-state" id="saveState" role="status" aria-live="polite">
+        <span class="save-dot" aria-hidden="true"></span>
+        Zapisano lokalnie
+      </div>
+
+      <div class="app-actions">
+        <div class="language-switch" role="group" aria-label="Wersja językowa CV">
+          <button class="lang-button is-active" type="button" data-lang="pl" aria-pressed="true">PL</button>
+          <button class="lang-button" type="button" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <button class="button button-quiet" type="button" id="importButton">Importuj</button>
+        <button class="button button-quiet" type="button" id="resetButton">Nowe CV</button>
+        <button class="button button-secondary" type="button" id="docxButton">DOCX</button>
+        <button class="button button-primary" type="button" id="pdfButton">PDF</button>
+      </div>
+    </header>
+
+    <main class="workspace" id="studio">
+      <aside class="editor-panel" aria-label="Panel tworzenia CV">
+        <div class="editor-heading">
+          <div>
+            <p class="eyebrow" id="stepEyebrow">Etap 1 z 6</p>
+            <h1 id="stepTitle">Wybierz kierunek</h1>
+          </div>
+          <span class="progress-value" id="progressValue">17%</span>
+        </div>
+        <div class="progress-track" aria-hidden="true"><span id="progressBar"></span></div>
+
+        <nav class="step-nav" id="stepNav" aria-label="Etapy tworzenia CV"></nav>
+
+        <form id="wizardForm" novalidate>
+          <div id="stepContent"></div>
+        </form>
+
+        <div class="editor-footer">
+          <button class="button button-quiet" type="button" id="previousButton">Wstecz</button>
+          <button class="button button-primary" type="button" id="nextButton">Dalej</button>
+        </div>
+      </aside>
+
+      <section class="preview-area" aria-label="Podgląd dokumentu CV">
+        <div class="preview-toolbar">
+          <div class="score-card" id="scoreCard">
+            <span class="score-ring" id="scoreRing"><strong id="scoreValue">0</strong></span>
+            <span><strong>Gotowość ATS</strong><small id="scoreHint">Uzupełnij podstawy</small></span>
+          </div>
+          <div class="preview-meta">
+            <span class="privacy-note">Dane zostają w tej przeglądarce</span>
+            <span class="page-chip">A4 · 1 kolumna</span>
+          </div>
+        </div>
+
+        <div class="paper-stage">
+          <article class="cv-paper" id="cvDocument" aria-label="Edytowalny podgląd CV"></article>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="import-dialog" id="importDialog">
+      <form method="dialog" class="dialog-card">
+        <div class="dialog-heading">
+          <div>
+            <p class="eyebrow">Import istniejącego CV</p>
+            <h2>Wklej treść lub wybierz plik</h2>
+          </div>
+          <button class="icon-button" value="cancel" aria-label="Zamknij">×</button>
+        </div>
+        <p class="dialog-copy">Obsługiwane są pliki TXT, Markdown i kopie JSON z CV Studio. Możesz też wkleić tekst skopiowany z PDF lub DOCX.</p>
+        <label class="file-drop" for="importFile">
+          <strong>Wybierz plik</strong>
+          <span>TXT, MD lub JSON</span>
+          <input id="importFile" type="file" accept=".txt,.md,.json,text/plain,application/json" />
+        </label>
+        <label class="field">
+          <span>Treść CV</span>
+          <textarea id="importText" rows="10" placeholder="Wklej tutaj treść CV…"></textarea>
+        </label>
+        <div class="dialog-actions">
+          <button class="button button-quiet" type="button" id="backupButton">Pobierz kopię JSON</button>
+          <span class="dialog-spacer"></span>
+          <button class="button button-quiet" value="cancel">Anuluj</button>
+          <button class="button button-primary" type="button" id="confirmImportButton">Importuj treść</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
